@@ -21,6 +21,11 @@ function App() {
     {
       accessorKey: 'status',
       header: 'Estado',
+      cell: (info) => {
+        const status = info.getValue();
+        const color = status === 'Active' ? 'bg-green-500' : 'bg-red-500';
+        return <span className={`px-2 py-1 text-white rounded ${color}`}>{status}</span>;
+      }
     },
     {
       accessorKey: 'creationDate',

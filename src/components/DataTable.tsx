@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 export interface ColumnDef<T> {
   accessorKey: keyof T;
   header: string;
+  cell?: (info: { getValue: () => any }) => React.ReactNode;
 }
 
 // Props del componente DataTable
@@ -44,7 +45,9 @@ export function DataTable<T extends object>({ data, columns }: DataTableProps<T>
             <tr key={rowIndex}>
               {columns.map((column) => (
                 <td key={column.accessorKey as string} className="px-6 py-4 whitespace-nowrap">
-                  {row[column.accessorKey] as React.ReactNode}
+                  {column.cell
+                    ? column.cell({ getValue: () => row[column.accessorKey] })
+                    : (row[column.accessorKey] as React.ReactNode)}
                 </td>
               ))}
             </tr>
