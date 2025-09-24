@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { users } from './data/users';
-import { DataTable, ColumnDef } from './components/DataTable';
-import { User } from './data/users';
+import { DataTable } from './components/DataTable';
+import type { ColumnDef } from './components/DataTable';
+import type { User } from './data/users';
 
 function App() {
   const columns: ColumnDef<User>[] = [
