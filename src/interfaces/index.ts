@@ -7,10 +7,10 @@ export interface User {
   creationDate: string;
 }
 
-export interface ColumnDef<T> {
-  accessorKey: keyof T;
+export interface ColumnDef<T, K extends keyof T = keyof T> {
+  accessorKey: K;
   header: string;
-  cell?: (info: { getValue: () => any }) => React.ReactNode;
+  cell?: (info: { getValue: () => T[K] }) => React.ReactNode;
 }
 
 export interface PaginationControlsProps {
