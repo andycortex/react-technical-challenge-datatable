@@ -27,14 +27,23 @@ export function DataTable<T extends object>({ data, columns, pageSize = 10, load
         </div>
       ) : (
         <>
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
+          <table className="min-w-full divide-y divide-gray-200" role="table">
+            <thead className="bg-gray-50" role="rowgroup">
+              <tr role="row">
                 {columns.map((column) => (
                   <th
                     key={column.accessorKey as string}
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => requestSort(column.accessorKey)}
+                    scope="col"
+                    aria-sort={
+                      sortBy === column.accessorKey
+                        ? sortDirection === 'asc'
+                          ? 'ascending'
+                          : 'descending'
+                        : 'none'
+                    }
+                    role="columnheader"
                   >
                     <div className="flex items-center">
                       {column.header}
@@ -48,11 +57,11 @@ export function DataTable<T extends object>({ data, columns, pageSize = 10, load
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200" role="rowgroup">
               {paginatedData.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr key={rowIndex} role="row">
                   {columns.map((column) => (
-                    <td key={column.accessorKey as string} className="px-6 py-4 whitespace-nowrap">
+                    <td key={column.accessorKey as string} className="px-6 py-4 whitespace-nowrap" role="cell">
                       {column.cell
                         ? column.cell({ getValue: () => row[column.accessorKey] })
                         : (row[column.accessorKey] as React.ReactNode)}
