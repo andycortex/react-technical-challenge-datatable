@@ -1,23 +1,21 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import type { ColumnDef } from '../interfaces';
+import { usePagination } from '../hooks/usePagination';
+import { useSorting } from '../hooks/useSorting';
 
 // Props del componente DataTable
 interface DataTableProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
+  pageSize?: number; // Make pageSize optional and provide a default
 }
 
-export function DataTable<T extends object>({ data, columns }: DataTableProps<T>) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
-
-  const paginatedData = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    return data.slice(startIndex, endIndex);
-  }, [data, currentPage, pageSize]);
-
-  const totalPages = Math.ceil(data.length / pageSize);
+export function DataTable<T extends object>({ data, columns, pageSize = 10 }: DataTableProps<T>) {
+  const { sortedData, sortBy, sortDirection, requestSort } = useSorting({ data });
+  const { paginatedData, currentPage, totalPages, goToNextPage, goToPreviousPage } = usePagination({
+    data: sortedData, // Use sortedData for pagination
+    pageSize,
+  });
 
   return (
     <div>
@@ -27,9 +25,17 @@ export function DataTable<T extends object>({ data, columns }: DataTableProps<T>
             {columns.map((column) => (
               <th
                 key={column.accessorKey as string}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                onClick={() => requestSort(column.accessorKey)}
               >
-                {column.header}
+                <div className="flex items-center">
+                  {column.header}
+                  {sortBy === column.accessorKey && (
+                    <span className="ml-2">
+                      {sortDirection === 'asc' ? '⬆️' : sortDirection === 'desc' ? '⬇️' : ''}
+                    </span>
+                  )}
+                </div>
               </th>
             ))}
           </tr>
@@ -56,14 +62,14 @@ export function DataTable<T extends object>({ data, columns }: DataTableProps<T>
         </div>
         <div>
           <button
-            onClick={() => setCurrentPage(currentPage - 1)}
+            onClick={goToPreviousPage}
             disabled={currentPage === 1}
             className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
           >
             Anterior
           </button>
           <button
-            onClick={() => setCurrentPage(currentPage + 1)}
+            onClick={goToNextPage}
             disabled={currentPage === totalPages}
             className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
           >
