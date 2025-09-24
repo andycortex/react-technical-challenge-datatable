@@ -36,8 +36,7 @@ export function useSorting<T extends object>({ data }: UseSortingProps<T>): UseS
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
       }
-
-      // Fallback for other types, or if types are mixed
+      
       if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
       if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
       return 0;

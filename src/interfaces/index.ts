@@ -19,3 +19,10 @@ export interface PaginationControlsProps {
   goToNextPage: () => void;
   goToPreviousPage: () => void;
 }
+
+export interface DataTableProps<T> {
+  data: T[];
+  columns: ColumnDef<T>[];
+  pageSize?: number;
+  loading?: boolean;
+}
