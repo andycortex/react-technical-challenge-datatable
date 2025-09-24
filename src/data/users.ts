@@ -1,11 +1,4 @@
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: 'Admin' | 'User' | 'Editor';
-  status: 'Active' | 'Inactive';
-  creationDate: string;
-}
+import type { User } from '../interfaces';
 
 export const users: User[] = [
   { id: 1, name: 'Juan Pérez', email: 'juan.perez@example.com', role: 'Admin', status: 'Active', creationDate: '2023-01-15' },

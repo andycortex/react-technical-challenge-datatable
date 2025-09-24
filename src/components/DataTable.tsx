@@ -1,11 +1,5 @@
 import React, { useMemo, useState } from 'react';
-
-// Definición de las columnas
-export interface ColumnDef<T> {
-  accessorKey: keyof T;
-  header: string;
-  cell?: (info: { getValue: () => any }) => React.ReactNode;
-}
+import type { ColumnDef } from '../interfaces';
 
 // Props del componente DataTable
 interface DataTableProps<T> {
