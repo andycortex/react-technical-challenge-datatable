@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import './index.css';
 import { users } from './data/users';
 import { DataTable } from './components/DataTable';
 import type { ColumnDef } from './components/DataTable';
