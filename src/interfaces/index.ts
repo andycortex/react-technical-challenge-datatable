@@ -12,3 +12,10 @@ export interface ColumnDef<T> {
   header: string;
   cell?: (info: { getValue: () => any }) => React.ReactNode;
 }
+
+export interface PaginationControlsProps {
+  currentPage: number;
+  totalPages: number;
+  goToNextPage: () => void;
+  goToPreviousPage: () => void;
+}
