@@ -20,6 +20,12 @@ export function DataTable<T extends object>({ data, columns, pageSize = 10 }: Da
 
   return (
     <div>
+      {paginatedData.length === 0 ? (
+        <div className="flex items-center justify-center h-48 bg-white shadow-md rounded-lg">
+          <p className="text-gray-500 text-lg">No hay datos para mostrar.</p>
+        </div>
+      ) : (
+        <>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -61,6 +67,8 @@ export function DataTable<T extends object>({ data, columns, pageSize = 10 }: Da
         goToNextPage={goToNextPage}
         goToPreviousPage={goToPreviousPage}
       />
+    </>
+      )}
     </div>
   );
 }
