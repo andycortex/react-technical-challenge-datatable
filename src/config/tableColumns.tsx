@@ -1,5 +1,4 @@
 import type { ColumnDef, User } from '../interfaces';
-import React from 'react';
 
 export const userColumns: ColumnDef<User>[] = [
   {
